@@ -8,6 +8,11 @@ function randomSearch(listNumbers, searchValue) {
     
     var randomIndex;
     while (notSearchedElems[(randomIndex = random(0, notSearchedElems.length - 1))] != searchValue) {
+        if (randomIndex === -1) {
+            console.log("randomSearch [Not Found] attempts: ", attempts, " | O(n)");
+            return null; // ELEMENT NOT FOUND
+        }
+
         attempts += 1;
         notSearchedElems.splice(randomIndex, 1);
     }
@@ -27,6 +32,11 @@ function binarySearch(listNumbers, searchValue) {
     var mid;
 
     while (listNumbers[(mid = Math.floor((low + high) / 2))] != searchValue) {
+        if (high - low === -1) {
+            console.log("binarySearch [Not Found] attempts: ", attempts, " | O(log n)");
+            return null; // ELEMENT NOT FOUND
+        }
+            
         attempts += 1;
         if (listNumbers[mid] > searchValue) {
             high = mid - 1;
@@ -36,15 +46,15 @@ function binarySearch(listNumbers, searchValue) {
     }
 
     console.log("binarySearch attempts: ", attempts, " | O(log n)");
-    return listNumbers[mid];
+    return listNumbers[mid]; // SHOULD RETURN ELEMENT INDEX INSTEAD OF VALUE
 }
 
 var searchSize = 100000;
 var numbers = [];
-for (var i = 0; i <= searchSize; i++) {
+for (var i = 1; i <= searchSize; i++) {
     numbers.push(i);
 }
-var randomNum = random(0, searchSize);
+var randomNum = random(1, searchSize * 2);
 console.log("Random nubmer is: ", randomNum);
 console.log("randomSearch found: ", randomSearch(numbers, randomNum));
 console.log("binarySearch found: ", binarySearch(numbers, randomNum));
